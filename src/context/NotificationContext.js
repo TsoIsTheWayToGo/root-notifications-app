@@ -120,7 +120,7 @@ export function NotificationProvider({ children }) {
         });
       } else {
         // Load initial mock data if no saved notifications
-        const initialNotifications = generateInitialNotifications(20); // Start with 20 notifications
+        const initialNotifications = generateInitialNotifications(10); // Start with 10 notifications
         dispatch({
           type: "SET_NOTIFICATIONS",
           payload: initialNotifications,
