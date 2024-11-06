@@ -133,7 +133,7 @@ const NotificationItem = React.memo(({ notification, onPress }) => {
 
   return (
     <TouchableOpacity
-      activeOpacity={1}
+      activeOpacity={.6}
       style={[
         styles.container,
         {
