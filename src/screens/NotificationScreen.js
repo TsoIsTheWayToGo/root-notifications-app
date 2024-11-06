@@ -17,19 +17,23 @@ import { useNotifications } from "../context/NotificationContext";
 import { useTheme } from "../context/ThemeContext";
 import Colors from "../constants/colors";
 
+
+
 const SectionHeader = React.memo(({ date, isDarkMode }) => (
   <Text
     style={[
       styles.sectionHeader,
       { color: isDarkMode ? Colors.textSecondary : "#64748b" },
+      { backgroundColor: isDarkMode ? Colors.surfaceColor : "#E8E6E6" },
     ]}
   >
     {date}
   </Text>
 ));
 
-const EmptyState = React.memo(({ activeFilter, isDarkMode }) => (
-  <View style={styles.emptyContainer}>
+const EmptyState = React.memo(({ activeFilter, isDarkMode }) => {
+  console.log(activeFilter)
+  return ( <View style={styles.emptyContainer}>
     <Ionicons
       name="notifications-off"
       size={48}
@@ -41,10 +45,11 @@ const EmptyState = React.memo(({ activeFilter, isDarkMode }) => (
         { color: isDarkMode ? Colors.textDim : "#666" },
       ]}
     >
-      No {activeFilter === "all" ? "" : activeFilter} notifications
+      No {activeFilter === "all" ? "" : activeFilter.split('_').join(' ')} notifications
     </Text>
-  </View>
-));
+  </View>)
+ 
+});
 
 const NotificationSection = React.memo(
   ({ section, isDarkMode, onNotificationPress }) => (
@@ -168,15 +173,15 @@ export default function NotificationScreen({ navigation }) {
 
   const keyExtractor = useCallback((item) => item.date, []);
 
-  const getItemLayout = useCallback(
-    (data, index) => ({
-      length: 80,
-      offset: 80 * index,
+  const getItemLayout = useCallback((data, index) => {
+    const itemHeight = 80; // Height of a notification item
+    const headerHeight = 32; // Height of date header
+    return {
+      length: itemHeight + headerHeight,
+      offset: (itemHeight + headerHeight) * index,
       index,
-    }),
-    []
-  );
-
+    };
+  }, []);
   if (state.isLoading) {
     return (
       <View style={styles.centered}>
@@ -207,6 +212,11 @@ export default function NotificationScreen({ navigation }) {
         initialNumToRender={7}
         updateCellsBatchingPeriod={50}
         onEndReachedThreshold={0.5}
+        maintainVisibleContentPosition={{
+          minIndexForVisible: 0,
+          autoscrollToTopThreshold: 1,
+        }}
+        contentContainerStyle={styles.listContent} // Add this prop
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -261,5 +271,9 @@ const styles = StyleSheet.create({
   headerButton: {
     marginLeft: 16,
     padding: 8,
+  },
+  listContent: {
+    flexGrow: 1,
+    paddingBottom: 16, // Add some bottom padding
   },
 });
