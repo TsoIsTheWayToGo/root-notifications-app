@@ -17,8 +17,6 @@ import { useNotifications } from "../context/NotificationContext";
 import { useTheme } from "../context/ThemeContext";
 import Colors from "../constants/colors";
 
-
-
 const SectionHeader = React.memo(({ date, isDarkMode }) => (
   <Text
     style={[
@@ -32,23 +30,25 @@ const SectionHeader = React.memo(({ date, isDarkMode }) => (
 ));
 
 const EmptyState = React.memo(({ activeFilter, isDarkMode }) => {
-  console.log(activeFilter)
-  return ( <View style={styles.emptyContainer}>
-    <Ionicons
-      name="notifications-off"
-      size={48}
-      color={isDarkMode ? Colors.textDim : "#ccc"}
-    />
-    <Text
-      style={[
-        styles.emptyText,
-        { color: isDarkMode ? Colors.textDim : "#666" },
-      ]}
-    >
-      No {activeFilter === "all" ? "" : activeFilter.split('_').join(' ')} notifications
-    </Text>
-  </View>)
- 
+  console.log(activeFilter);
+  return (
+    <View style={styles.emptyContainer}>
+      <Ionicons
+        name="notifications-off"
+        size={48}
+        color={isDarkMode ? Colors.textDim : "#ccc"}
+      />
+      <Text
+        style={[
+          styles.emptyText,
+          { color: isDarkMode ? Colors.textDim : "#666" },
+        ]}
+      >
+        No {activeFilter === "all" ? "" : activeFilter.split("_").join(" ")}{" "}
+        notifications
+      </Text>
+    </View>
+  );
 });
 
 const NotificationSection = React.memo(
